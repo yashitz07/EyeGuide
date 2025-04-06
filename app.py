@@ -9,11 +9,11 @@ import threading
 
 from text_models import text_recognition_upload
 from text_models import text_recognition_capture
-from text_models import text_recognition_live
+# from text_models import text_recognition_live
 
 from object_models import object_detection_upload
 from object_models import object_detection_capture
-from object_models import object_detection_live
+# from object_models import object_detection_live
 
 
 app = Flask(__name__, static_folder='static')
@@ -90,17 +90,17 @@ def text_capture():
 
     
 
-@app.route('/text3')
-def text3():
-    return render_template('text-recognition-live.html')
+# @app.route('/text3')
+# def text3():
+#     return render_template('text-recognition-live.html')
 
 
-@app.route('/text-live', methods=['POST'])
-def text_live():
+# @app.route('/text-live', methods=['POST'])
+# def text_live():
     
-    text = text_recognition_live.perform_live_text()
+#     text = text_recognition_live.perform_live_text()
 
-    return render_template('text-recognition-live.html', text=text )
+#     return render_template('text-recognition-live.html', text=text )
 
 
 
@@ -162,17 +162,17 @@ def give_audio(filename):
     return send_from_directory(app.config['AUDIO_FOLDER'], filename)
 
 
-@app.route('/object3')
-def object3():
-    return render_template('object-detection-live.html')
+# @app.route('/object3')
+# def object3():
+#     return render_template('object-detection-live.html')
 
 
-@app.route('/object-live', methods=['POST'])
-def object_live():
+# @app.route('/object-live', methods=['POST'])
+# def object_live():
     
-    detected_objects = object_detection_live.object_detection()
+#     detected_objects = object_detection_live.object_detection()
 
-    return render_template('object-detection-live.html',  detected_objects=detected_objects )
+#     return render_template('object-detection-live.html',  detected_objects=detected_objects )
 
 
 
