@@ -1,11 +1,13 @@
 import cv2
 import pytesseract
 import numpy as np
-import pyttsx3
 import time
 import platform
+import os
 
-# Set tesseract path only if on Windows
+if os.environ.get("RENDER") != "true":
+    import pyttsx3
+
 if platform.system() == "Windows":
     pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
@@ -15,11 +17,13 @@ def detect_text(frame):
     return pytesseract.image_to_string(thresh)
 
 def perform_live_text():
-    engine = pyttsx3.init()
-    cap = cv2.VideoCapture(0)
+    engine = None
+    if os.environ.get("RENDER") != "true":
+        engine = pyttsx3.init()
 
+    cap = cv2.VideoCapture(0)
     last_speech_time = 0
-    speech_gap = 2  # seconds
+    speech_gap = 2
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -35,12 +39,12 @@ def perform_live_text():
         current_time = time.time()
 
         if detected_text.strip() and (current_time - last_speech_time) > speech_gap:
-            engine.say(detected_text)
-            engine.runAndWait()
+            if engine:
+                engine.say(detected_text)
+                engine.runAndWait()
             last_speech_time = current_time
 
         cv2.imshow('Live OCR - Press "c" to stop', frame)
-
         if cv2.waitKey(1) & 0xFF == ord('c'):
             break
 
