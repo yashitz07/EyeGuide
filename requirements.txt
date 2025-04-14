@@ -1,13 +1,16 @@
-Flask
-gunicorn
+Flask>=2.2.5
+gunicorn>=21.2.0
+
+# Machine Learning frameworks
 tensorflow==2.15.0
-torch
-torchvision
-torchaudio
-opencv-python
-numpy
-pillow
-pytesseract
-gTTS
-transformers
-ultralytics
+torch>=2.2.0
+torchvision>=0.17.0
+torchaudio>=2.2.0
+
+# Image processing
+opencv-python-headless>=4.9.0.80
+pillow>=10.0.0
+pytesseract>=0.3.10
+
+# Text to speech
+gTTS>=2.5.1

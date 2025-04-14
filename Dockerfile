@@ -1,32 +1,27 @@
-# Use official Python base image
 FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Install system dependencies (Tesseract, pyttsx3 dependencies, etc.)
+# System dependencies
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
-    libespeak1 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
-    ffmpeg \
+    libgl1 \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Set work directory
+# Set workdir
 WORKDIR /app
 
 # Copy project files
-COPY . /app/
+COPY . .
 
 # Install Python dependencies
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
 # Expose port
 EXPOSE 5000
 
-# Run the Flask app
-CMD ["python", "app.py"]
+# Run app with gunicorn
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "app:app"]
